@@ -1,36 +1,136 @@
 {% extends "base.html" %}
 {% block content %}
 <form action="{{ url_for('results') }}" method="POST" class="search-box">
+  <br/><br/>
 <table
- style="background-color: rgb(212, 212, 211); width: 100%; text-align: left; margin-left: auto; margin-right: auto;"
+ style="width: 100%; text-align: left; margin-left: auto; margin-right: auto;"
  border="0" cellpadding="2" cellspacing="2">
   <tbody>
     <tr>
-      <td>Where are you?</td>
-      <td><input size="20" placeholder="Claremont" name="location" type="text"></td>
+      <td style="width: 202px;"></td>
+      <td style="width: 300px;"><big>Where are you?</big></td>
+      <td style="width: 454px;"><input size="20"
+ placeholder="Claremont" name="location" type="text"></td>
+      <td style="width: 202px;"></td>
     </tr>
     <tr>
-      <td>When are you free?</td>
-      <td>
-      <select name="time_menu" width="50">
-      <option value="morning">Morning</option>
-      <option value="afternoon">Afternoon</option>
-      <option value="evening">Evening</option>
-      <option value="nighttime">Night Time</option>
-      <option value="whenever">Whenever</option>
-      </select>
+      <td style="width: 202px;"></td>
+      <td style="width: 300px;"><big><br/><br/>When are you
+free?</big></td>
+      <td style="width: 454px;"><br/><br/>
+      <script type="text/javascript">
+/***********************************************
+* Drop Down Date select script- by JavaScriptKit.com
+* This notice MUST stay intact for use
+* Visit JavaScript Kit at http://www.javascriptkit.com/ for this script and more
+***********************************************/
+var monthtext=['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+function populatedropdown(monthfield){
+var today=new Date()
+var monthfield=document.getElementById(monthfield)
+for (var m=0; m<7; m++)
+monthfield.options[m]=new Option(monthtext[m], monthtext[m])
+monthfield.options[today.getDay()]=new Option(monthtext[today.getDay()], monthtext[today.getDay()], true, true) //select today's month
+}
+      </script>
+      <form action="" name="someform">
+        <select id="monthdropdown">
+        </select>
+      </form>
+      <script type="text/javascript">
+//populatedropdown(id_of_month_select)
+window.onload=function(){
+populatedropdown("monthdropdown")
+}
+      </script>
       </td>
+      <td style="width: 202px;"></td>
     </tr>
     <tr>
+<<<<<<< HEAD
+      <td style="width: 202px;"></td>
+      <td style="width: 300px;"><big></big></td>
+      <td style="width: 454px;">
+      <div id="slider-range"></div>
+      <span id="time"></span>
+      <script type="text/javascript">
+$("#slider-range").slider({
+range: true,
+min: 0,
+max: 1439,
+values: [540, 1020],
+slide: slideTime
+});
+function slideTime(event, ui){
+var val0 = $("#slider-range").slider("values", 0),
+val1 = $("#slider-range").slider("values", 1),
+minutes0 = parseInt(val0 % 60, 10),
+hours0 = parseInt(val0 / 60 % 24, 10),
+minutes1 = parseInt(val1 % 60, 10),
+hours1 = parseInt(val1 / 60 % 24, 10);
+startTime = getTime(hours0, minutes0);
+endTime = getTime(hours1, minutes1);
+$("#time").text(startTime + ' - ' + endTime);
+}
+function getTime(hours, minutes) {
+var time = null;
+minutes = minutes + "";
+if (hours < 12) {
+time = "AM";
+}
+else {
+time = "PM";
+}
+if (hours == 0) {
+hours = 12;
+}
+if (hours > 12) {
+hours = hours - 12;
+}
+if (minutes.length == 1) {
+minutes = "0" + minutes;
+}
+return hours + ":" + minutes + " " + time;
+}
+slideTime();
+      </script></td>
+      <td style="width: 202px;"></td>
+    </tr>
+    <tr>
+      <td style="width: 202px;"></td>
+      <td style="width: 300px;"><br/><br/><big>How much can
+you spend?</big></td>
+      <td style="width: 454px;"><br/><br/>
+      <p><label for="amount">Maximum price:</label>
+      <input id="amount"
+ style="border: 0pt none ; color: rgb(246, 147, 31); font-weight: bold;"
+ type="text"></p>
+      </td>
+      <td style="width: 202px;"></td>
+=======
       <td>How much money can you spend?    $</td>
       <td><input size="10" placeholder="25" name="budget_menu" type="number"></td>
+>>>>>>> 9b12772d9ab0b7cb1c07e7dc3b51fb3c636b7007
     </tr>
     <tr>
-      <td></td>
-      <td><input value="Submit" type="submit"></td>
+      <td style="width: 202px;"></td>
+      <td style="width: 300px;"><big></big></td>
+      <td style="width: 454px;">
+      <div id="slider-range-min"></div>
+      </td>
+      <td style="width: 202px;"></td>
+    </tr>
+    <tr>
+      <td style="width: 202px;"></td>
+      <td style="width: 300px;"><big></big></td>
+      <td style="width: 454px;"><br/><br/><input value="Submit"
+ type="submit"></td>
+      <td style="width: 202px;"></td>
     </tr>
   </tbody>
 </table>
+
+
 </form>
 </br></br>
 
