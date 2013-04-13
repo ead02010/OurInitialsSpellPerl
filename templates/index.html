@@ -31,7 +31,7 @@ free?</big></td>
 * This notice MUST stay intact for use
 * Visit JavaScript Kit at http://www.javascriptkit.com/ for this script and more
 ***********************************************/
-var monthtext=['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+var mon thtext=['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 function populatedropdown(monthfield){
 var today=new Date()
 var monthfield=document.getElementById(monthfield)
@@ -40,7 +40,7 @@ monthfield.options[m]=new Option(monthtext[m], monthtext[m])
 monthfield.options[today.getDay()]=new Option(monthtext[today.getDay()], monthtext[today.getDay()], true, true) //select today's month
 }
       </script>
-      <form action="" name="someform">
+      <form action="" name="day_var">
         <select id="monthdropdown">
         </select>
       </form>
