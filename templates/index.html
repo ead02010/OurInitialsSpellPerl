@@ -3,53 +3,90 @@
 <form action="{{ url_for('results') }}" method="POST" class="search-box">
   <br/><br/>
 <table
- style="width: 100%; text-align: left; margin-left: auto; margin-right: auto;"
- border="0" cellpadding="2" cellspacing="2">
+ style="font-family: Cooper Black; background-color: rgb(204, 204, 204); width: 933px; height: 496px; text-align: left; margin-left: auto; margin-right: auto;"
+ border="0" cellpadding="20" cellspacing="2">
   <tbody>
     <tr>
-      <td style="width: 202px;"></td>
+ 
+    </tr>
+    <tr align="center">
+      <td colspan="2" rowspan="1"><big><big><big><big>The
+Next Adventure</big></big></big></big></td>
+    </tr>
+    <tr>
+    
+    </tr>
+    <tr>
       <td style="width: 300px;"><big>Where are you?</big></td>
       <td style="width: 454px;"><input size="20"
  placeholder="Claremont" name="location" type="text"></td>
-      <td style="width: 202px;"></td>
     </tr>
     <tr>
-      <td style="width: 202px;"></td>
-      <td style="width: 300px;"><big><br/><br/>When are you
+      <td style="width: 300px;"><big>When are you
 free?</big></td>
-      <td style="width: 454px;"><br/><br/>
-      <script type="text/javascript">
+      <td style="width: 454px;">
+      
+<script type="text/javascript">
+
 /***********************************************
 * Drop Down Date select script- by JavaScriptKit.com
 * This notice MUST stay intact for use
 * Visit JavaScript Kit at http://www.javascriptkit.com/ for this script and more
 ***********************************************/
-var monthtext=['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-function populatedropdown(monthfield){
+
+var monthtext=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec'];
+
+function populatedropdown(dayfield, monthfield, yearfield){
 var today=new Date()
+var dayfield=document.getElementById(dayfield)
 var monthfield=document.getElementById(monthfield)
-for (var m=0; m<7; m++)
+var yearfield=document.getElementById(yearfield)
+for (var i=0; i<31; i++)
+dayfield.options[i]=new Option(i, i+1)
+dayfield.options[today.getDate()]=new Option(today.getDate(), today.getDate(), true, true) //select today's day
+for (var m=0; m<12; m++)
 monthfield.options[m]=new Option(monthtext[m], monthtext[m])
-monthfield.options[today.getDay()]=new Option(monthtext[today.getDay()], monthtext[today.getDay()], true, true) //select today's month
+monthfield.options[today.getMonth()]=new Option(monthtext[today.getMonth()], monthtext[today.getMonth()], true, true) //select today's month
+var thisyear=today.getFullYear()
+for (var y=0; y<20; y++){
+yearfield.options[y]=new Option(thisyear, thisyear)
+thisyear+=1
 }
-      </script>
-      <form action="" name="someform">
-        <select id="monthdropdown">
-        </select>
-      </form>
-      <script type="text/javascript">
-//populatedropdown(id_of_month_select)
+yearfield.options[0]=new Option(today.getFullYear(), today.getFullYear(), true, true) //select today's year
+}
+
+</script>
+
+
+<form action="" name="dayform">
+<select id="daydropdown">
+</select> 
+</form>
+<form action="" name="monthform">
+<select id="monthdropdown">
+</select> 
+</form>
+<form action="" name="yearform">
+<select id="yeardropdown">
+</select> 
+</form>
+
+<script type="text/javascript">
+
+//populatedropdown(id_of_day_select, id_of_month_select, id_of_year_select)
 window.onload=function(){
-populatedropdown("monthdropdown")
+populatedropdown("daydropdown", "monthdropdown", "yeardropdown")
 }
-      </script>
+</script>
+
+
+
+
+
       </td>
-      <td style="width: 202px;"></td>
     </tr>
     <tr>
-<<<<<<< HEAD
-      <td style="width: 202px;"></td>
-      <td style="width: 300px;"><big></big></td>
+      <td style="width: 300px;"></td>
       <td style="width: 454px;">
       <div id="slider-range"></div>
       <span id="time"></span>
@@ -61,6 +98,8 @@ max: 1439,
 values: [540, 1020],
 slide: slideTime
 });
+var startTime=getTime(1,1);
+var endTime=getTime(1,1); 
 function slideTime(event, ui){
 var val0 = $("#slider-range").slider("values", 0),
 val1 = $("#slider-range").slider("values", 1),
@@ -93,42 +132,64 @@ minutes = "0" + minutes;
 return hours + ":" + minutes + " " + time;
 }
 slideTime();
+
+function on_request_success(response) {
+    console.debug('response', response);
+} 
+
+function on_request_error(r, text_status, error_thrown) {
+    console.debug('error', text_status + ", " + error_thrown + ":\n" + r.responseText);
+}
+
+jQuery.ajax({
+    url: 'app.py',
+    type: 'POST',
+    cache: false,
+    data: JSON.stringify(startTime),
+    contentType: 'application/json',
+    processData: false,
+    success: on_request_success,
+    error: on_request_error
+});
+
+jQuery.ajax({
+    url: 'app.py',
+    type: 'POST',
+    cache: false,
+    data: JSON.stringify(endTime),
+    contentType: 'application/json',
+    processData: false,
+    success: on_request_success,
+    error: on_request_error
+});
+
+
       </script></td>
-      <td style="width: 202px;"></td>
     </tr>
     <tr>
-      <td style="width: 202px;"></td>
-      <td style="width: 300px;"><br/><br/><big>How much can
+      <td style="width: 300px;"><big>How much can
 you spend?</big></td>
-      <td style="width: 454px;"><br/><br/>
-      <p><label for="amount">Maximum price:</label>
+      <td style="width: 454px;">
+      <p><label for="amount">Maximum price: ($)</label>
       <input id="amount"
  style="border: 0pt none ; color: rgb(246, 147, 31); font-weight: bold;"
- type="text"></p>
+ type="text" name="budget_menu"></p>
       </td>
-      <td style="width: 202px;"></td>
-=======
-      <td>How much money can you spend?    $</td>
-      <td><input size="10" placeholder="25" name="budget_menu" type="number"></td>
->>>>>>> 9b12772d9ab0b7cb1c07e7dc3b51fb3c636b7007
     </tr>
     <tr>
-      <td style="width: 202px;"></td>
-      <td style="width: 300px;"><big></big></td>
+      <td style="width: 300px;"></td>
       <td style="width: 454px;">
       <div id="slider-range-min"></div>
       </td>
-      <td style="width: 202px;"></td>
     </tr>
     <tr>
-      <td style="width: 202px;"></td>
-      <td style="width: 300px;"><big></big></td>
-      <td style="width: 454px;"><br/><br/><input value="Submit"
+      <td style="width: 300px;"></td>
+      <td style="width: 454px;"><input value="Submit"
  type="submit"></td>
-      <td style="width: 202px;"></td>
     </tr>
   </tbody>
 </table>
+
 
 
 </form>
