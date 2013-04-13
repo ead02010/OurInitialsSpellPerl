@@ -18,22 +18,34 @@ places_query['sensor'] = 'false'
 places_query['radius'] = 50000
 places_query['minprice'] = '1'
 places_query['maxprice'] = '2'
-places_query['opennow'] = 'true'
 places_query['types'] = 'amusement_park|aquarium|art_gallery|bakery|bar|bowling_alley|cafe|casino|food|movie_theater|museum|night_club|park|restaurant|shopping_mall|stadium|zoo'
 places_url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json'
 places_resp = requests.get(places_url, params=places_query)
 len(places_resp.json()['results'])
 
-for x in places_resp.json()['results']:
-  print x['name']
-
-# use places detail api to filter by hours
+# get place details
 details = {}
 for x in places_resp.json()['results']:
   detail_query = {}
   detail_query['key'] = config.get('Keys', 'places')
-  detail_query['reference'] = x['id']
+  detail_query['reference'] = x['reference']
+  detail_query['sensor'] = 'false'
   detail_url = 'https://maps.googleapis.com/maps/api/place/details/json'
   detail_resp = requests.get(detail_url, params=detail_query)
-  details['id'] = detail_resp
+  details[x['reference']] = detail_resp.json()['result']
 
+# filter by open and closing time
+day = 0
+start = '1500'
+end = '1700'
+filtered = {}
+for ref in details:
+  if 'opening_hours' in details[ref]:
+    hours = details[ref]['opening_hours']['periods'][day]
+    if 'open' in hours and 'close' in hours:
+      if 'time' in hours['open'] and 'time' in hours['close']:
+        if (start > hours['open']['time']) & (end < hours['close']['time']):
+          filtered[ref] = details[ref]
+
+for x in filtered:
+  print filtered[x]
