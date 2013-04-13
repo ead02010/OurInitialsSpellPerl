@@ -9,7 +9,6 @@ from flask import (
 import urllib
 import requests
 import json
-from oauth import sign_url
 
 app = Flask(__name__)
 
@@ -33,16 +32,11 @@ def results():
         'budget_menu': budget_menu
     }
     query_string = urllib.urlencode(data)
-    api_url = YELP_SEARCH_URL + "?" + query_string
-    signed_url = sign_url(api_url)
-    response = requests.get(signed_url)
-    json_response = json.loads(response.text)
 
     return render_template('results.html',
                             time_menu=time_menu,
                             location=location,
-                            budget_menu=budget_menu,
-                            businesses=json_response['businesses'])
+                            budget_menu=budget_menu)
 
 
 @app.route('/save', methods=["POST"])
