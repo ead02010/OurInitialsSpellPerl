@@ -52,15 +52,18 @@ rated = {}
 for ref in filtered:
   if 'rating' in filtered[ref]:
     rated[ref] = filtered[ref]
-# if three are rated, use those
+# if num entries are rated, use those
 best = []
-if len(rated) >= 3:
-  for x in sorted(rated.items(), key=lambda e: e[1]['rating'])[-3:]:
+num = 3
+if len(rated) >= num:
+  for x in sorted(rated.items(), key=lambda e: e[1]['rating'])[-num:]:
     print x[1]['rating']
     best.append(x)
-# if not, use the top 3 returned
+# if not, use the first num returned
 else:
-  for x in filtered.items()[:3]:
+  for x in filtered.items()[:num]:
     print x[1]['rating']
     best.append(x)
 
+for x in best:
+  print str(x[1]['geometry']['location']['lat']) + ',' + str(x[1]['geometry']['location']['lng'])
