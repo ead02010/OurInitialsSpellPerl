@@ -99,6 +99,38 @@ minutes = "0" + minutes;
 return hours + ":" + minutes + " " + time;
 }
 slideTime();
+
+function on_request_success(response) {
+    console.debug('response', response);
+} 
+
+function on_request_error(r, text_status, error_thrown) {
+    console.debug('error', text_status + ", " + error_thrown + ":\n" + r.responseText);
+}
+
+jQuery.ajax({
+    url: 'app.py',
+    type: 'POST',
+    cache: false,
+    data: JSON.stringify(startTime),
+    contentType: 'application/json',
+    processData: false,
+    success: on_request_success,
+    error: on_request_error
+});
+
+jQuery.ajax({
+    url: 'app.py',
+    type: 'POST',
+    cache: false,
+    data: JSON.stringify(endTime),
+    contentType: 'application/json',
+    processData: false,
+    success: on_request_success,
+    error: on_request_error
+});
+
+
       </script></td>
     </tr>
     <tr>
