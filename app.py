@@ -11,6 +11,8 @@ import requests
 import json
 import datetime
 
+from datetime import datetime
+
 app = Flask(__name__)
 
 
@@ -29,8 +31,8 @@ def results():
     budget_menu = request.form['budget_menu']
 
     data = {
-        'q': location,
-        'datetime_local.gte': '2013-04-12',
+        'venue.city': location,
+        'datetime_local.gte': '2013-04-14',
         'lowest_price.gte': budget_menu
     }
     query_string = urllib.urlencode(data)
@@ -39,9 +41,28 @@ def results():
     response = requests.get(api_url)
     json_response = json.loads(response.text)
 
+    start = "http://maps.googleapis.com/maps/api/staticmap";
+    i = 0
+    urls = {}
+    for event in json_response['events']:
+        lat = str(event['venue']['location']['lat'])
+        lon = str(event['venue']['location']['lon'])
+        coords = lat + "," + lon
+        data = {
+            'center': coords,
+            'markers': coords,
+            'zoom': '14',
+            'size': '200x200',
+            'sensor': 'false'
+        }
+        qstring = urllib.urlencode(data)
+        url = start + '?' + qstring
+        event['newurl']=url
+        i=i+1
+
     return render_template('results.html',
-                            location = 'location',
-                            low_price = 'budget_menu',
+                            location = location,
+                            low_price = budget_menu,
                             events=json_response['events'])
 
 
