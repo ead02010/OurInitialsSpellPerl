@@ -10,14 +10,21 @@
             	<h4><a href="{{event['url']}}">Find Tickets on SeatGeek</a></h4>
             	<h4><a href="{{event['venue']['url']}}">Venue Info</a></h4>
 
-            	<script type="text/javascript">
-				var start = "http://maps.googleapis.com/maps/api/staticmap?center=";
-				var lat = event['venue']['location']['lat'];
-				var lon = event['venue']['location']['lon'];
-				var url = start + lat + "," + lon + "&size=200X200";
-				
-				</script>
+            	{{event['score']}}
 				<img src="{{event['newurl']}}">
+
+                <br/>
+
+            </div>
+        </li>
+    {% endfor %}
+    {% for place in places %}
+    	<li>
+            <div>
+            	<br/>
+            	{{place['name']}}
+            	<h4><a href="{{place['url']}}">Site Website</a></h4>
+				<img src="{{place['googleurl']}}">
 
                 <br/>
 
