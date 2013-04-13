@@ -9,11 +9,12 @@ from flask import (
 import urllib
 import requests
 import json
-from oauth import sign_url
+import datetime
 
 app = Flask(__name__)
 
-YELP_SEARCH_URL = 'http://api.yelp.com/v2/search'
+
+SEATGEEK_SEARCH_URL = 'http://api.seatgeek.com/2/events'
 
 @app.route('/')
 def index():
@@ -28,21 +29,20 @@ def results():
     budget_menu = request.form['budget_menu']
 
     data = {
-        'location': location,
-        'time_menu': time_menu,
-        'budget_menu': budget_menu
+        'q': location,
+        'datetime_local.gte': '2013-04-12',
+        'lowest_price.gte': budget_menu
     }
     query_string = urllib.urlencode(data)
-    api_url = YELP_SEARCH_URL + "?" + query_string
-    signed_url = sign_url(api_url)
-    response = requests.get(signed_url)
+    api_url = SEATGEEK_SEARCH_URL + "?" + query_string
+
+    response = requests.get(api_url)
     json_response = json.loads(response.text)
 
     return render_template('results.html',
-                            time_menu=time_menu,
-                            location=location,
-                            budget_menu=budget_menu,
-                            businesses=json_response['businesses'])
+                            location = 'location',
+                            low_price = 'budget_menu',
+                            events=json_response['events'])
 
 
 @app.route('/save', methods=["POST"])
